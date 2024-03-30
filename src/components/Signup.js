@@ -1,5 +1,6 @@
 
 import { useState } from "react"
+import "../css/Signup.css"
 
 const Signup = (props) => {
     const [form, setForm] = useState(null)
@@ -30,7 +31,7 @@ const Signup = (props) => {
                     <label htmlFor="password">Password: </label>
                     <input type="password" name="password" autoComplete="true" onChange={handleChange}/>
                 </span>
-                <input type="submit" value="Sign Up"/>
+                <input type="submit" value="Sign Up" className="submit"/>
             </form>
         </div>
 

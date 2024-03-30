@@ -1,15 +1,16 @@
 
 import { useState } from "react"
+import "../css/Login.css"
 
 const Login = (props) => {
     const [form, setForm] = useState(null)
-    // if our handleLogin doesn't have 200(OK) it just returns the data ...which is where our error message will come from thanks to the controller logic we set up in Express!
+
     const [errorMsg, setErrorMsg] = useState("")
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         let submission = await props.handleLogin(form)
-        // console.log(submission) // this only shows up IF handleLogin returns an error, otherwise it'll be undefined
+
         if(submission) {
             setErrorMsg(submission.error)
         }
@@ -34,9 +35,8 @@ const Login = (props) => {
                     <label htmlFor="password">Password: </label>
                     <input type="password" name="password" onChange={handleChange}/>
                 </span>
-                <input type="submit" value="Login"/>
+                <input type="submit" value="Login" className="submit"/>
             </form>
-            {/* inside the form display the error message in red */}
             {errorMsg ? <h4 style={{color: "red"}}>{errorMsg}</h4> : ""}
         </div>
     )

@@ -1,0 +1,22 @@
+#main-nav {
+    background-color: mediumpurple;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.nav-button {
+    text-decoration: none;
+    color: white;
+    background-color: transparent;
+    padding: 10px 20px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s, padding 0.5s, border-width 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    padding: 9px 19px;
+}
