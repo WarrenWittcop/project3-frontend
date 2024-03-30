@@ -5,7 +5,7 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import Nav from './components/Nav';
 import Homepage from './pages/Homepage';
-import './App.css';
+import './css/App.css';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -95,11 +95,14 @@ function App() {
 
   return (
     <div className="App">
+      <Nav />
       {/* <Nav isLoggedIn={isLoggedIn} handleLogout={handleLogout}/> */}
       <Routes>
         <Route path='/' element={<Homepage />}/>
+        <Route path='/login' element={<Login/>}/>
         {/* <Route path='/login' element={<Login handleLogin={handleLogin}/>}/> */}
         {/* <Route path='/profile/:id' element={<Profile  fetchUser={fetchUser} user={user}/>}/> */}
+        <Route path='/signup' element={<Signup/>}/>
         {/* <Route path='/signup' element={<Signup handleSignUp={handleSignUp}/>}/> */}
       </Routes>
     </div>

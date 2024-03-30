@@ -24,6 +24,12 @@ h1 {
     margin: 20px;
 }
 
+p {
+  font-weight: bold;
+  color: rgb(67, 67, 67);
+  margin-top: 100px;
+}
+
 .links {
     display: flex;
     flex-direction: column; 

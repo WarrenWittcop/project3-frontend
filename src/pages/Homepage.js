@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-import "../Homepage.css"
+import "../css/Homepage.css"
 
 const Homepage = () => {
 
@@ -11,7 +11,7 @@ const Homepage = () => {
             <p>Login or sign up to continue!</p>
                 <div className="links">
                     <Link to="/signup" className="button">Signup</Link>
-                    <Link to="login" className="button">Login</Link>
+                    <Link to="/login" className="button">Login</Link>
                 </div>
 
         </div>

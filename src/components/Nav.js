@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom"
+import "../css/Nav.css"
 
 const Nav = (props) => {
     console.log(props.isLoggedIn)
 
-    //user is logged in - show them only the logout
+    const navbarStyle = {
+        backgroundColor: "mediumpurple", 
+        color: "white", 
+        marginBottom: "10px",
+    };
+
+
     const loggedInLink = (
         <div>
             <Link to="/logout">Logout</Link>
@@ -11,20 +18,19 @@ const Nav = (props) => {
         </div>
     )
 
-    const noAuthLinks = (
-        <div>
-            <Link to="/signup">Signup</Link>
-            <Link to="/login">Login</Link>
-        </div>
-    )
+    // const noAuthLinks = (
+    //     <div>
+    //         <Link to="/homepage">Home</Link>
+    //     </div>
+    // )
 
     return (
-        <nav className="navbar">
+        <nav id="main-nav" className="navbar">
             <div>
-                <Link to="/">Home</Link>
+                <Link to="/" className="nav-button">Home</Link>
             </div>
             <div>
-                {props.isLoggedIn ? loggedInLink : noAuthLinks}
+                {/* {props.isLoggedIn ? loggedInLink : noAuthLinks} */}
             </div>
         </nav>
     )
