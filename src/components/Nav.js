@@ -29,9 +29,13 @@ const Nav = (props) => {
             <div>
                 <Link to="/" className="nav-button">Home</Link>
             </div>
+
             <div>
                 {/* {props.isLoggedIn ? loggedInLink : noAuthLinks} */}
             </div>
+            <div>
+            <Link to="/Bmr" className="nav-button">BMR Calc</Link>
+            </div>  
         </nav>
     )
 }

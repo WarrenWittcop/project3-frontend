@@ -4,7 +4,10 @@ import Profile from './pages/Profile';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Nav from './components/Nav';
+import Bmr from "./components/Bmr";
 import Homepage from './pages/Homepage';
+
+
 import './css/App.css';
 import { useState, useEffect } from 'react';
 
@@ -104,6 +107,7 @@ function App() {
         {/* <Route path='/profile/:id' element={<Profile  fetchUser={fetchUser} user={user}/>}/> */}
         <Route path='/signup' element={<Signup/>}/>
         {/* <Route path='/signup' element={<Signup handleSignUp={handleSignUp}/>}/> */}
+        <Route path= "Bmr" element={<Bmr/>}/>
       </Routes>
     </div>
   );
