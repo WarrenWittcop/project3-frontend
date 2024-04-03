@@ -3,7 +3,7 @@ import { useState } from "react"
 import "../css/Login.css"
 
 const Login = (props) => {
-    const [form, setForm] = useState(null)
+    const [form, setForm] = useState("")
 
     const [errorMsg, setErrorMsg] = useState("")
 

@@ -13,16 +13,17 @@ const Nav = (props) => {
 
     const loggedInLink = (
         <div>
-            <Link to="/logout">Logout</Link>
-            <Link to="/">Home</Link>
+            <Link to="/">Logout</Link>
+
+            <Link to="/profile">Profile</Link>
         </div>
     )
 
-    // const noAuthLinks = (
-    //     <div>
-    //         <Link to="/homepage">Home</Link>
-    //     </div>
-    // )
+    const noAuthLinks = (
+        <div>
+            <Link to="/homepage">Home</Link>
+        </div>
+    )
 
     return (
         <nav id="main-nav" className="navbar">
@@ -31,7 +32,7 @@ const Nav = (props) => {
             </div>
 
             <div>
-                {/* {props.isLoggedIn ? loggedInLink : noAuthLinks} */}
+                {props.isLoggedIn ? loggedInLink : noAuthLinks}
             </div>
             <div>
             <Link to="/Bmr" className="nav-button">BMR Calc</Link>
