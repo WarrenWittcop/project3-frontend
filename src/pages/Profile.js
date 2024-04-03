@@ -1,44 +1,148 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from 'axios';
 
-import { useEffect } from "react"
-import { useParams } from "react-router-dom"
+const Profile = ({ user, fetchUser }) => {
+  const params = useParams();
+  const [isEditing, setIsEditing] = useState(false);
+  const [imageLink, setImageLink] = useState('');
+  const [age, setAge] = useState('');
+  const [weight, setWeight] = useState('');
+  const [sex, setSex] = useState('');
 
-const Profile = ({user, fetchUser}) => {
-    const params = useParams()
+  useEffect(() => {
+    fetchUser(params.id);
+  }, []);
 
-    useEffect(()=>{
-        
-        fetchUser(params.id)
-    }, [])
-    
-    const userProfile = () =>{
-        return (
-            <div className="profile-heading">
-                <h1>Welcome, {user.username}</h1>
-                <h3>We've been waiting</h3>
-            </div>
-        )
+  const handleSave = async () => {
+    try {
+      const updatedUserData = {
+        imageLink: imageLink || "default_image_link.jpg",
+        age: age,
+        weight: weight,
+        sex: sex
+      };
+  
+      const res = await axios.put(`/users/${params.id}`, updatedUserData);
+      console.log(res.data); // Handle success response
+      setIsEditing(false); // Exit editing mode after saving
+    } catch (error) {
+      console.error("Error occurred:", error);
     }
-   
-    const checkForUser = () => {
-        let token = localStorage.getItem("authToken")
-       
-        if (!user && !token){
-            return (
-                <div style={{color: "white"}}>
-                    <h1>403 Forbidden</h1>
-                </div>
-            )
-       
-        } else if (!user){
-            return (
-                <div style={{color: "white"}}>
-                    <h1>Loading...</h1>
-                </div>
-            )
-        }
+  };
+
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'imageLink':
+        setImageLink(value);
+        break;
+      case 'age':
+        setAge(value);
+        break;
+      case 'weight':
+        setWeight(value);
+        break;
+      case 'sex':
+        setSex(value);
+        break;
+      default:
+        break;
     }
+  };
 
-    return ( user ? userProfile() : checkForUser())
-}
+  const userProfile = () => {
+    return (
+      <div className="profile-heading">
+        {/* Display user information */}
+        <div className="user-info">
+          <div>
+            <img src={user.imageLink} alt="Profile" />
+          </div>
+          <div className="user-details">
+            <p>Age: {user.age}</p>
+            <p>Weight: {user.weight}</p>
+            <p>Sex: {user.sex}</p>
+          </div>
+        </div>
+        <button onClick={toggleEditing}>Edit</button>
+      </div>
+    );
+  };
 
-export default Profile
+  const editProfile = () => {
+    return (
+      <div className="profile-heading">
+        {/* Edit user information */}
+        <div>
+          <label>Image Link:</label>
+          <input
+            type="text"
+            name="imageLink"
+            value={imageLink}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Age:</label>
+          <input
+            type="number"
+            name="age"
+            value={age}
+            onChange={handleChange}
+            placeholder="Enter age"
+          />
+        </div>
+        <div>
+          <label>Weight:</label>
+          <input
+            type="number"
+            name="weight"
+            value={weight}
+            onChange={handleChange}
+            placeholder="Enter weight"
+          />
+          <select name="weightUnit" onChange={handleChange}>
+            <option value="lbs">lbs</option>
+            <option value="kgs">kgs</option>
+          </select>
+        </div>
+        <div>
+          <label>Sex:</label>
+          <select name="sex" onChange={handleChange}>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <button onClick={handleSave}>Save</button>
+        <button onClick={toggleEditing}>Cancel</button>
+      </div>
+    );
+  };
+
+  const checkForUser = () => {
+    let token = localStorage.getItem("authToken");
+
+    if (!user && !token) {
+      return (
+        <div style={{ color: "white" }}>
+          <h1>403 Forbidden</h1>
+        </div>
+      );
+    } else if (!user) {
+      return (
+        <div style={{ color: "white" }}>
+          <h1>Loading...</h1>
+        </div>
+      );
+    }
+  };
+
+  return user ? (isEditing ? editProfile() : userProfile()) : checkForUser();
+};
+
+export default Profile;

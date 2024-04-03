@@ -1,0 +1,15 @@
+
+.profile-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-details {
+    margin-left: 20px; /* Adjust as needed */
+  }

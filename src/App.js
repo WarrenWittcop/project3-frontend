@@ -17,6 +17,23 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
   const URL = "http://localhost:4000/api/"
+
+  const updateUserProfile = async (userId, updatedUserData) => {
+    try {
+      const response = await fetch(`${URL}user/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": localStorage.getItem("authToken")
+        },
+        body: JSON.stringify(updatedUserData)
+      });
+      const data = await response.json();
+      console.log("User profile updated:", data);
+    } catch (error) {
+      console.error("Error updating user profile:", error);
+    }
+  };
   
   const handleSignUp = async(user) => {
     console.log
@@ -104,7 +121,7 @@ function App() {
         <Route path='/' element={<Homepage />}/>
         {/* <Route path='/login' element={<Login/>}/> */}
         <Route path='/login' element={<Login handleLogin={handleLogin}/>}/>
-        <Route path='/profile/:id' element={<Profile  fetchUser={fetchUser} user={user}/>}/>
+        <Route path='/profile/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user}/>}/>
         {/* <Route path='/signup' element={<Signup/>}/> */}
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp}/>}/>
         <Route path= "Bmr" element={<Bmr/>}/>
