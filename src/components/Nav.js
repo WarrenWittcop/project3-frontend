@@ -1,44 +1,31 @@
-import { Link } from "react-router-dom"
-import "../css/Nav.css"
+import { Link } from "react-router-dom";
+import "../css/Nav.css";
 
 const Nav = (props) => {
-    console.log(props.isLoggedIn)
-
-    const navbarStyle = {
-        backgroundColor: "mediumpurple", 
-        color: "white", 
-        marginBottom: "10px",
-    };
-
-
-    const loggedInLink = (
-        <div>
-            <Link to="/">Logout</Link>
-
-            <Link to="/profile">Profile</Link>
-        </div>
-    )
-
-    const noAuthLinks = (
-        <div>
-            <Link to="/homepage">Home</Link>
-        </div>
-    )
-
     return (
-        <nav id="main-nav" className="navbar">
-            <div>
-                <Link to="/" className="nav-button">Home</Link>
-            </div>
+      <nav id="main-nav" className="navbar">
+        <div className="nav-left">
+          <Link to="/" className="nav-button">
+            Home
+          </Link>
+          <Link to="/Bmr" className="nav-button">
+            BMR Calc
+          </Link>
+        </div>
+        <div className="nav-right">
+          {props.isLoggedIn ? (
+            <>
+              <Link to={`/profile/${props.userId}`} className="nav-button">
+                Profile
+              </Link>
+              <Link to="/" onClick={props.handleLogout} className="nav-button">
+                Logout
+              </Link>
+            </>
+          ) : null}
+        </div>
+      </nav>
+    );
+  };
 
-            <div>
-                {props.isLoggedIn ? loggedInLink : noAuthLinks}
-            </div>
-            <div>
-            <Link to="/Bmr" className="nav-button">BMR Calc</Link>
-            </div>  
-        </nav>
-    )
-}
-
-export default Nav
+export default Nav;

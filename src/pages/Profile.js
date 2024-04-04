@@ -24,8 +24,8 @@ const Profile = ({ user, fetchUser }) => {
       };
   
       const res = await axios.put(`/users/${params.id}`, updatedUserData);
-      console.log(res.data); // Handle success response
-      setIsEditing(false); // Exit editing mode after saving
+      console.log(res.data); 
+      setIsEditing(false); 
     } catch (error) {
       console.error("Error occurred:", error);
     }

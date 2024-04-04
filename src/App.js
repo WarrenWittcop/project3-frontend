@@ -1,22 +1,23 @@
-import { BrowserRouter } from 'react-router-dom';
-import {Routes, Route, useNavigate} from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Profile from './pages/Profile';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Nav from './components/Nav';
 import Bmr from "./components/Bmr";
 import Homepage from './pages/Homepage';
-
-
 import './css/App.css';
 import { useState, useEffect } from 'react';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const URL = "http://localhost:4000/api/";
 
-  const [user, setUser] = useState(null)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const navigate = useNavigate()
-  const URL = "http://localhost:4000/api/"
+  useEffect(() => {
+    let token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const updateUserProfile = async (userId, updatedUserData) => {
     try {
@@ -35,7 +36,7 @@ function App() {
     }
   };
   
-  const handleSignUp = async(user) => {
+  const handleSignUp = async (user) => {
     console.log
       const response = await fetch(URL + "auth/signup", {
         method: "POST",
@@ -115,20 +116,16 @@ function App() {
 
   return (
     <div className="App">
-      <Nav />
-      <Nav isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+      <Nav isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
       <Routes>
-        <Route path='/' element={<Homepage />}/>
-        {/* <Route path='/login' element={<Login/>}/> */}
-        <Route path='/login' element={<Login handleLogin={handleLogin}/>}/>
-        <Route path='/profile/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user}/>}/>
-        {/* <Route path='/signup' element={<Signup/>}/> */}
-        <Route path='/signup' element={<Signup handleSignUp={handleSignUp}/>}/>
-        <Route path= "Bmr" element={<Bmr/>}/>
+        <Route path='/' element={<Homepage />} />
+        <Route path='/login' element={<Login handleLogin={handleLogin} />} />
+        <Route path='/profile/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user} />} />
+        <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
+        <Route path='/Bmr' element={<Bmr />} />
       </Routes>
     </div>
   );
-  }  
-
+}
 
 export default App;
