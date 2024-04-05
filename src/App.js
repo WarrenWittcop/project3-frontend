@@ -95,7 +95,7 @@ function App() {
               navigate("/")
             }
 
-            const fetchUser = async (id) => {
+             const fetchUser = async (id) => {
               // grab the token from local storage
               const token = localStorage.getItem("authToken")
               if (token) {

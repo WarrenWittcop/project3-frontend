@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const Profile = ({ user, fetchUser }) => {
+const URL = "http://localhost:4000";
+
+const Profile = ({ user, fetchUser, handleSubmit }) => {
   const params = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const [imageLink, setImageLink] = useState('');
@@ -13,7 +15,7 @@ const Profile = ({ user, fetchUser }) => {
     fetchUser(params.id);
   }, []);
 
-  const handleSave = async () => {
+  const handleSave = async (e) => {
     try {
       const updatedUserData = {
         imageLink: imageLink || "default_image_link.jpg",
@@ -22,10 +24,11 @@ const Profile = ({ user, fetchUser }) => {
         sex: sex
       };
 
-      const response = await fetch(`/user/${params.id}`, {
+      const response = await fetch(`${URL}/user/${params.id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "authorization": localStorage.getItem("authToken")
         },
         body: JSON.stringify(updatedUserData)
       });
@@ -36,6 +39,10 @@ const Profile = ({ user, fetchUser }) => {
 
       const responseData = await response.json();
       console.log(responseData);
+
+      fetchUser(params.id)
+      // await handleSubmit(e);
+
       setIsEditing(false);
     } catch (error) {
       console.error("Error occurred:", error);
