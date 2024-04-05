@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
 
 const Profile = ({ user, fetchUser }) => {
   const params = useParams();
@@ -22,10 +21,22 @@ const Profile = ({ user, fetchUser }) => {
         weight: weight,
         sex: sex
       };
-  
-      const res = await axios.put(`/users/${params.id}`, updatedUserData);
-      console.log(res.data); 
-      setIsEditing(false); 
+
+      const response = await fetch(`/user/${params.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedUserData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+      setIsEditing(false);
     } catch (error) {
       console.error("Error occurred:", error);
     }
@@ -58,7 +69,6 @@ const Profile = ({ user, fetchUser }) => {
   const userProfile = () => {
     return (
       <div className="profile-heading">
-        {/* Display user information */}
         <div className="user-info">
           <div>
             <img src={user.imageLink} alt="Profile" />
@@ -77,7 +87,6 @@ const Profile = ({ user, fetchUser }) => {
   const editProfile = () => {
     return (
       <div className="profile-heading">
-        {/* Edit user information */}
         <div>
           <label>Image Link:</label>
           <input

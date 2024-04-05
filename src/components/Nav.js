@@ -15,7 +15,7 @@ const Nav = (props) => {
         <div className="nav-right">
           {props.isLoggedIn ? (
             <>
-              <Link to={`/profile/${props.userId}`} className="nav-button">
+              <Link to={`/user/${props.userId}`} className="nav-button">
                 Profile
               </Link>
               <Link to="/" onClick={props.handleLogout} className="nav-button">

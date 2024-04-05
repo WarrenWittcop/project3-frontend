@@ -12,7 +12,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const URL = "http://localhost:4000/api/";
+  const URL = "http://localhost:4000/";
 
   useEffect(() => {
     let token = localStorage.getItem("authToken");
@@ -75,7 +75,7 @@ function App() {
       localStorage.setItem("authToken", data.token)
       setIsLoggedIn(true)
  
-      navigate(`/profile/${data.id}`)
+      navigate(`/user/${data.id}`)
     }
          
   
@@ -120,7 +120,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/login' element={<Login handleLogin={handleLogin} />} />
-        <Route path='/profile/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user} />} />
+        <Route path='/user/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user} />} />
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
         <Route path='/Bmr' element={<Bmr />} />
       </Routes>
