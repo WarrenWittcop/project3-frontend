@@ -79,14 +79,14 @@ function App() {
     }
          
   
-        const handleSubmit = async (e) => {
-                e.preventDefault()
-                let submission = await props.handleLogin(form)
+        // const handleSubmit = async (e) => {
+        //         e.preventDefault()
+        //         let submission = await props.handleLogin(form)
 
-                if(submission) {
-                    setErrorMsg(submission.error)
-                }
-            }
+        //         if(submission) {
+        //             setErrorMsg(submission.error)
+        //         }
+        //     }
 
             const handleLogout = () => {
               console.log("in handle log")

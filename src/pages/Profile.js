@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "../css/Profile.css";
 
 const URL = "http://localhost:4000";
 
@@ -14,6 +15,16 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
   useEffect(() => {
     fetchUser(params.id);
   }, []);
+
+  useEffect(() => {
+
+    if (user) {
+      setImageLink(user.imageLink || '');
+      setAge(user.age || '');
+      setWeight(user.weight || '');
+      setSex(user.sex || '');
+    }
+  }, [user]);
 
   const handleSave = async (e) => {
     try {
@@ -128,12 +139,32 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
           </select>
         </div>
         <div>
-          <label>Sex:</label>
-          <select name="sex" onChange={handleChange}>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
+        <label>Sex:</label>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              name="sex"
+              value="Male"
+              checked={sex === "Male"}
+              onChange={handleChange}
+            />
+            Male
+          </label>
         </div>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              name="sex"
+              value="Female"
+              checked={sex === "Female"}
+              onChange={handleChange}
+            />
+            Female
+          </label>
+        </div>
+      </div>  
         <button onClick={handleSave}>Save</button>
         <button onClick={toggleEditing}>Cancel</button>
       </div>
