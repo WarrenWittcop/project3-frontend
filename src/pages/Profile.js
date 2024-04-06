@@ -12,6 +12,8 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [sex, setSex] = useState('');
+  const [goals, setGoals] = useState("");
+  const [bio, setBio] = useState("");
 
   useEffect(() => {
     fetchUser(params.id);
@@ -24,6 +26,8 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
       setAge(user.age || '');
       setWeight(user.weight || '');
       setSex(user.sex || '');
+      setGoals(user.goals || "");
+      setBio(user.bio || "");
     }
   }, [user]);
 
@@ -31,6 +35,8 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
     try {
       const updatedUserData = {
         imageLink: imageLink || "default_image_link.jpg",
+        bio: bio,
+        goals: goals,
         age: age,
         weight: weight,
         sex: sex
@@ -71,6 +77,12 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
       case 'imageLink':
         setImageLink(value);
         break;
+        case 'bio':
+          setBio(value);
+          break;
+          case 'goals':
+            setGoals(value);
+            break;
       case 'age':
         setAge(value);
         break;
@@ -93,6 +105,10 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
             <img src={user.imageLink} alt="Profile" />
           </div>
           <div className="user-details">
+           <div className="details">
+            <p>Bio: {user.bio}</p>
+            <p>Goals: {user.goals}</p>
+            </div>  
             <p>Age: {user.age}</p>
             <p>Weight: {user.weight}</p>
             <p>Sex: {user.sex}</p>
@@ -119,6 +135,24 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
             name="imageLink"
             value={imageLink}
             onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Bio:</label>
+          <input
+          type="text"
+          name="bio"
+          value={bio}
+          onChange={handleChange}
+          />
+        </div>
+        <div>
+        <label>Goals:</label>
+          <input
+          type="text"
+          name="goals"
+          value={goals}
+          onChange={handleChange}
           />
         </div>
         <div>

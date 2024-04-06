@@ -13,7 +13,9 @@ function App() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const URL = "http://localhost:4000/";
+  // const URL = process.env.URL
 
+  
   useEffect(() => {
     let token = localStorage.getItem("authToken");
     setIsLoggedIn(!!token);
