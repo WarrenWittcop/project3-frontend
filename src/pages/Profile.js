@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import "../css/Profile.css";
 
 const URL = "http://localhost:4000";
@@ -98,12 +99,18 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
           </div>
         </div>
         <button onClick={toggleEditing}>Edit</button>
+
+        <div className="profile-links">
+      <Link to="./Nutrition.js" className="page-links">Nutrition</Link>
+      <Link to="./Exercise.js" className="page-links">Exercise</Link>
+      </div>
+      
       </div>
     );
   };
 
   const editProfile = () => {
-    return (
+    return ( 
       <div className="profile-heading">
         <div>
           <label>Image Link:</label>
