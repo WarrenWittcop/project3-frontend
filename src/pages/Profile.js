@@ -22,9 +22,7 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
       console.log('User ID is undefined');
     }
   }, [id]);
-  // useEffect(() => {
-  //   fetchUser(params.id);
-  // }, []);
+
 
   useEffect(() => {
 
@@ -68,7 +66,7 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
       fetchUser(id)
       // await handleSubmit(e);
 
-      setIsEditing(true);
+      setIsEditing(false);
     } catch (error) {
       console.error("Error occurred:", error);
     }
@@ -124,7 +122,7 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
         <button onClick={toggleEditing}>Edit</button>
 
         <div className="profile-links">
-      <Link to="./Nutrition.js" className="page-links">Nutrition</Link>
+      <Link to="./Nutrition" className="page-links">Nutrition</Link>
       <Link to="./Exercise.js" className="page-links">Exercise</Link>
       </div>
       

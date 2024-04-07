@@ -1,0 +1,31 @@
+
+.nut-head {
+    color: green;
+}
+
+.nutrition-page {
+    text-align: center;
+  }
+  
+  .nutrition-form {
+    margin-top: 40px;
+  }
+  
+  .nutrition-table {
+    margin: 40px auto;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .nutrition-table th {
+    padding: 10px 20px; 
+  }
+  
+  .total-calories {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+  
+  .button-container {
+    margin-top: 20px;
+  }

@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Nav from './components/Nav';
 import Bmr from "./components/Bmr";
 import Homepage from './pages/Homepage';
+import Nutrition from './pages/Nutrition';
 import './css/App.css';
 import { useState, useEffect } from 'react';
 
@@ -80,15 +81,7 @@ function App() {
       navigate(`/user/${data.id}`)
     }
          
-  
-        // const handleSubmit = async (e) => {
-        //         e.preventDefault()
-        //         let submission = await props.handleLogin(form)
 
-        //         if(submission) {
-        //             setErrorMsg(submission.error)
-        //         }
-        //     }
 
             const handleLogout = () => {
               console.log("in handle log")
@@ -118,13 +111,13 @@ function App() {
 
   return (
     <div className="App">
-      <Nav isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <Nav isLoggedIn={isLoggedIn} userId={user ? user.id : null} handleLogout={handleLogout} />
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/login' element={<Login handleLogin={handleLogin} />} />
-        <Route path='/user/:id' element={<Profile fetchUser={fetchUser} user={user} />} />
         <Route path='/user/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user} />} />
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
+        <Route path='user/:id/Nutrition' element={<Nutrition user={user} updateUserProfile={updateUserProfile} />} />
         <Route path='/Bmr' element={<Bmr />} />
       </Routes>
     </div>
