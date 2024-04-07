@@ -40,7 +40,7 @@ function App() {
   
   const handleSignUp = async (user) => {
     console.log
-      const response = await fetch(URL + "auth/signup", {
+      const response = await fetch(URL + "/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ function App() {
               navigate("/")
             }
 
-             const fetchUser = async (id) => {
+            const fetchUser = async (id) => {
               // grab the token from local storage
               const token = localStorage.getItem("authToken")
               if (token) {
@@ -122,6 +122,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/login' element={<Login handleLogin={handleLogin} />} />
+        <Route path='/user/:id' element={<Profile fetchUser={fetchUser} user={user} />} />
         <Route path='/user/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user} />} />
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
         <Route path='/Bmr' element={<Bmr />} />

@@ -6,7 +6,7 @@ import "../css/Profile.css";
 const URL = "http://localhost:4000";
 
 const Profile = ({ user, fetchUser, handleSubmit }) => {
-  const params = useParams();
+  const {id} = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const [imageLink, setImageLink] = useState('');
   const [age, setAge] = useState('');
@@ -16,8 +16,15 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
   const [bio, setBio] = useState("");
 
   useEffect(() => {
-    fetchUser(params.id);
-  }, []);
+    if (id) {
+      fetchUser(id);
+    } else {
+      console.log('User ID is undefined');
+    }
+  }, [id]);
+  // useEffect(() => {
+  //   fetchUser(params.id);
+  // }, []);
 
   useEffect(() => {
 
@@ -41,8 +48,8 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
         weight: weight,
         sex: sex
       };
-
-      const response = await fetch(`${URL}/user/${params.id}`, {
+      
+      const response = await fetch(`${URL}/user/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -58,10 +65,10 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
       const responseData = await response.json();
       console.log(responseData);
 
-      fetchUser(params.id)
+      fetchUser(id)
       // await handleSubmit(e);
 
-      setIsEditing(false);
+      setIsEditing(true);
     } catch (error) {
       console.error("Error occurred:", error);
     }
