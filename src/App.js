@@ -7,6 +7,7 @@ import Nav from './components/Nav';
 import Bmr from "./components/Bmr";
 import Homepage from './pages/Homepage';
 import Nutrition from './pages/Nutrition';
+import Exercise from "./pages/Exercise";
 import './css/App.css';
 
 
@@ -95,7 +96,7 @@ function App() {
               // grab the token from local storage
               const token = localStorage.getItem("authToken")
               if (token) {
-                const response = await fetch(`{URL}user/${id}`, {
+                const response = await fetch(`${URL}user/${id}`, {
                   method: "GET",
                   headers: {
                     "Content-Type": "application/json",
@@ -119,6 +120,7 @@ function App() {
         <Route path='/user/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user} />} />
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
         <Route path='user/:id/nutrition' element={<Nutrition user={user} updateUserProfile={updateUserProfile} fetchUser={fetchUser} />} />
+        <Route path='user/:id/exercise' element={<Exercise user={user} updateUserProfile={updateUserProfile} fetchUser={fetchUser} />} />
         <Route path='/Bmr' element={<Bmr />} />
       </Routes>
     </div>

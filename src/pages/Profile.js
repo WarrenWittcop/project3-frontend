@@ -123,7 +123,7 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
 
         <div className="profile-links">
       <Link to="./Nutrition" className="page-links">Nutrition</Link>
-      <Link to="./Exercise.js" className="page-links">Exercise</Link>
+      <Link to={`/user/${user.id}/exercise`} className="page-links">Exercise</Link>
       </div>
       
       </div>
