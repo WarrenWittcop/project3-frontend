@@ -10,8 +10,11 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
   const [calories, setCalories] = useState("");
   const [totalCalories, setTotalCalories] = useState(0);
 
+
+
+
   const handleAddFood = () => {
-    const newItem = { food, calories, totalCalories: 0, calorieCalc: 0 };
+    const newItem = { food, calories, totalCalories: 0};
     setNutritionData([...nutritionData, newItem]);
     setTotalCalories(totalCalories + Number(calories));
     setFood("");
@@ -19,19 +22,23 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
   };
 
   const handleSave = async (e) => {
-
-    await fetchUser(user.id);
-
+    if (!user) {
+      console.error("User is null");
+      return;
+    }
+  
+    await fetchUser(id);
+    
+  
     // Append new nutrition data to the user's profile
     const updatedUserProfile = {
       ...user,
       nutrition: [...user.nutrition, ...nutritionData],
       totalCalories: user.totalCalories + totalCalories,
     };
-
+  
     // Update user profile
     updateUserProfile(user.id, updatedUserProfile);
-
   };
 
   return (

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Profile from './pages/Profile';
 import Signup from './components/Signup';
@@ -7,7 +8,7 @@ import Bmr from "./components/Bmr";
 import Homepage from './pages/Homepage';
 import Nutrition from './pages/Nutrition';
 import './css/App.css';
-import { useState, useEffect } from 'react';
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -94,7 +95,7 @@ function App() {
               // grab the token from local storage
               const token = localStorage.getItem("authToken")
               if (token) {
-                const response = await fetch(URL + `user/${id}`, {
+                const response = await fetch(`{URL}user/${id}`, {
                   method: "GET",
                   headers: {
                     "Content-Type": "application/json",
@@ -117,7 +118,7 @@ function App() {
         <Route path='/login' element={<Login handleLogin={handleLogin} />} />
         <Route path='/user/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user} />} />
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
-        <Route path='user/:id/Nutrition' element={<Nutrition user={user} updateUserProfile={updateUserProfile} fetchUser={fetchUser} />} />
+        <Route path='user/:id/nutrition' element={<Nutrition user={user} updateUserProfile={updateUserProfile} fetchUser={fetchUser} />} />
         <Route path='/Bmr' element={<Bmr />} />
       </Routes>
     </div>
