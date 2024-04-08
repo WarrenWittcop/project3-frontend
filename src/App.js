@@ -117,7 +117,7 @@ function App() {
         <Route path='/login' element={<Login handleLogin={handleLogin} />} />
         <Route path='/user/:id' element={<Profile fetchUser={fetchUser} updateUserProfile={updateUserProfile} user={user} />} />
         <Route path='/signup' element={<Signup handleSignUp={handleSignUp} />} />
-        <Route path='user/:id/Nutrition' element={<Nutrition user={user} updateUserProfile={updateUserProfile} />} />
+        <Route path='user/:id/Nutrition' element={<Nutrition user={user} updateUserProfile={updateUserProfile} fetchUser={fetchUser} />} />
         <Route path='/Bmr' element={<Bmr />} />
       </Routes>
     </div>

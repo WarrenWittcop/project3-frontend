@@ -1,22 +1,27 @@
 
 import React, { useState } from "react";
+import { useParams } from 'react-router-dom';
 import "../css/Nutrition.css";
 
-const Nutrition = ({ user, updateUserProfile }) => {
+const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
+  const { id } = useParams();
   const [nutritionData, setNutritionData] = useState([]);
   const [food, setFood] = useState("");
   const [calories, setCalories] = useState("");
   const [totalCalories, setTotalCalories] = useState(0);
 
   const handleAddFood = () => {
-    const newItem = { food, calories };
+    const newItem = { food, calories, totalCalories: 0, calorieCalc: 0 };
     setNutritionData([...nutritionData, newItem]);
     setTotalCalories(totalCalories + Number(calories));
     setFood("");
     setCalories("");
   };
 
-  const handleSave = () => {
+  const handleSave = async (e) => {
+
+    await fetchUser(user.id);
+
     // Append new nutrition data to the user's profile
     const updatedUserProfile = {
       ...user,
