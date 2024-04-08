@@ -1,86 +1,119 @@
+import React, { useState, useEffect } from "react";
+import "../css/Exercise.css";
 
+const Exercise = ({ user }) => {
+  const [exercises, setExercises] = useState([]);
+  const [editedName, setEditedName] = useState("");
+  const [editedDuration, setEditedDuration] = useState("");
 
-import React, { useState } from "react";
+  useEffect(() => {
+    if (user) {
+      fetchExercises();
+    }
+  }, [user]);
 
-import "../css/Exercise.css"
+  const fetchExercises = async () => {
+    try {
+      const response = await fetch(`http://localhost:4000/user/${user.id}/exercise`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': localStorage.getItem("authToken")
+        }
+      });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-const Exercise = () => {
-    const [exercises, setExercises] = useState([]);
-    const [newName, setNewName] = useState("");
-    const [newDuration, setNewDuration] = useState("");
-    const [editingExercise, setEditingExercise] = useState(null);
-    const [editedName, setEditedName] = useState("");
-    const [editedDuration, setEditedDuration] = useState("");
+      const data = await response.json();
+      setExercises(data.exercises);
+    } catch (error) {
+      console.error("Error fetching exercises:", error);
+    }
+  };
 
   const handleEdit = (exercise) => {
-    setEditingExercise(exercise);
     setEditedName(exercise.name);
     setEditedDuration(exercise.duration);
   };
 
-  const handleSave = () => {
-    let updatedExercises = [...exercises];
-    if (editingExercise) {
-      updatedExercises = updatedExercises.map((exercise) =>
-        exercise.id === editingExercise.id
-          ? { ...exercise, name: editedName, duration: editedDuration }
-          : exercise
-      );
-    } else {
-      if (newName && newDuration) {
-        const newExercise = {
-          id: exercises.length + 1,
-          name: newName,
-          duration: newDuration,
-        };
-        updatedExercises.push(newExercise);
-      }
+  const handleAddExercise = () => {
+    if (editedName && editedDuration) {
+      const newExercise = {
+        id: Date.now(), // timestamp
+        name: editedName,
+        duration: editedDuration,
+      };
+      setExercises([...exercises, newExercise]);
+      setEditedName("");
+      setEditedDuration("");
     }
-    setExercises(updatedExercises);
-    setEditingExercise(null);
-    setNewName("");
-    setNewDuration("");
+  };
+
+  const handleSave = async () => {
+    try {
+      // Save exercises to the user's database
+      const response = await fetch(`http://localhost:4000/user/${user.id}/exercise`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'authorization': localStorage.getItem("authToken")
+        },
+        body: JSON.stringify(exercises)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      console.log("Exercises saved successfully to the database!");
+    } catch (error) {
+      console.error("Error saving exercises to the database:", error);
+    }
   };
 
   return (
-    <div>
-      <h2>Exercise</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Exercise</th>
-            <th>Duration</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {exercises.map((exercise) => (
-            <tr key={exercise.id}>
-              <td>{exercise.name}</td>
-              <td>{exercise.duration}</td>
-              <td>
-                <button onClick={() => handleEdit(exercise)}>Edit</button>
-              </td>
+    <div className="exercise-page">
+      <h2 className="exercise-head">Exercise</h2>
+      <div className="exercise-form">
+        <input
+          type="text"
+          value={editedName}
+          onChange={(e) => setEditedName(e.target.value)}
+          placeholder="Exercise name"
+        />
+        <input
+          type="text"
+          value={editedDuration}
+          onChange={(e) => setEditedDuration(e.target.value)}
+          placeholder="Duration"
+        />
+        <button onClick={handleAddExercise}>Add Exercise</button>
+      </div>
+      <div className="exercise-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Exercise</th>
+              <th>Minutes</th>
+              <th>Edit</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      {editingExercise && (
-        <div>
-          <input
-            type="text"
-            value={editedName}
-            onChange={(e) => setEditedName(e.target.value)}
-          />
-          <input
-            type="text"
-            value={editedDuration}
-            onChange={(e) => setEditedDuration(e.target.value)}
-          />
-          <button onClick={handleSave}>Save</button>
-        </div>
-      )}
+          </thead>
+          <tbody>
+            {exercises.map((exercise, index) => (
+              <tr key={index}>
+                <td>{exercise.name}</td>
+                <td>{exercise.duration}</td>
+                <td>
+                  <button onClick={() => handleEdit(exercise)}>Edit</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button onClick={handleSave} className="save-button">Save</button>
+      </div>
     </div>
   );
 };

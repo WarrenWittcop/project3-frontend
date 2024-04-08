@@ -1,0 +1,25 @@
+.exercise-head {
+    color: green;
+  }
+  
+  .exercise-page {
+    text-align: center;
+  }
+  
+  .exercise-table {
+    margin: 40px auto;
+    text-align: center;
+    display: inline-block;
+  }
+  
+  .exercise-table th {
+    padding: 10px 20px;
+  }
+  
+  .edit-form {
+    margin-top: 20px;
+  }
+
+  .save-button {
+    margin-top: 20px;
+  }
