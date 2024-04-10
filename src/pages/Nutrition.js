@@ -9,6 +9,9 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
   const [food, setFood] = useState("");
   const [calories, setCalories] = useState("");
   const [totalCalories, setTotalCalories] = useState(0);
+  const [editedFood, setEditedFood] = useState("");
+  const [editedCalories, setEditedCalories] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
 
 
@@ -21,6 +24,20 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
     setCalories("");
   };
 
+
+  const handleEdit = (index) => {
+    setEditedFood(nutritionData[index].food);
+    setEditedCalories(nutritionData[index].calories);
+    setEditIndex(index);
+  };
+
+  const handleDelete = (index) => {
+    const updatedNutritionData = [...nutritionData];
+    const deletedItem = updatedNutritionData.splice(index, 1);
+    setNutritionData(updatedNutritionData);
+    setTotalCalories(totalCalories - Number(deletedItem[0].calories));
+  };
+
   const handleSave = async (e) => {
     if (!user) {
       console.error("User is null");
@@ -30,7 +47,7 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
     await fetchUser(id);
     
   
-    // Append new nutrition data to the user's profile
+    // Add new nutrition data to the user's profile
     const updatedUserProfile = {
       ...user,
       nutrition: [...user.nutrition, ...nutritionData],
@@ -39,6 +56,13 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
   
     // Update user profile
     updateUserProfile(user.id, updatedUserProfile);
+  };
+
+  const handleUpdate = (index) => {
+    const updatedNutritionData = [...nutritionData];
+    updatedNutritionData[index] = { food: editedFood, calories: editedCalories };
+    setNutritionData(updatedNutritionData);
+    setEditIndex(null);
   };
 
   return (
@@ -67,13 +91,25 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
             <tr>
               <th>Food</th>
               <th>Calories</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             {nutritionData.map((item, index) => (
               <tr key={index}>
-                <td>{item.food}</td>
-                <td>{item.calories}</td>
+                <td>{editIndex === index ? <input type="text" value={editedFood} onChange={(e) => setEditedFood(e.target.value)} /> : item.food}</td>
+                <td>{editIndex === index ? <input type="number" value={editedCalories} onChange={(e) => setEditedCalories(e.target.value)} /> : item.calories}</td>
+                <td>
+                  {editIndex === index ? (
+                    <button onClick={() => handleUpdate(index)}>Save</button>
+                  ) : (
+                    <button onClick={() => handleEdit(index)}>Edit</button>
+                  )}
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(index)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>

@@ -78,7 +78,9 @@ function App() {
         return data
       }
       localStorage.setItem("authToken", data.token)
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
+
+      setUser(data.user);
  
       navigate(`/user/${data.id}`)
     }
@@ -113,7 +115,7 @@ function App() {
 
   return (
     <div className="App">
-      <Nav isLoggedIn={isLoggedIn} userId={user ? user.id : null} handleLogout={handleLogout} />
+      <Nav isLoggedIn={isLoggedIn} userId={user && user._id} handleLogout={handleLogout} />
       <Routes>
         <Route path='/' element={<Homepage />} />
         <Route path='/login' element={<Login handleLogin={handleLogin} />} />

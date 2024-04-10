@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../css/Exercise.css";
 
 const Exercise = ({ user }) => {
+  // const { id } = useParams();
   const [exercises, setExercises] = useState([]);
   const [editedName, setEditedName] = useState("");
   const [editedDuration, setEditedDuration] = useState("");
@@ -73,6 +74,12 @@ const Exercise = ({ user }) => {
     }
   };
 
+  const handleDelete = (index) => {
+    const updatedExercises = [...exercises];
+    updatedExercises.splice(index, 1);
+    setExercises(updatedExercises);
+  };
+
   return (
     <div className="exercise-page">
       <h2 className="exercise-head">Exercise</h2>
@@ -98,6 +105,7 @@ const Exercise = ({ user }) => {
               <th>Exercise</th>
               <th>Minutes</th>
               <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -107,6 +115,9 @@ const Exercise = ({ user }) => {
                 <td>{exercise.duration}</td>
                 <td>
                   <button onClick={() => handleEdit(exercise)}>Edit</button>
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(index)}>Delete</button>
                 </td>
               </tr>
             ))}
