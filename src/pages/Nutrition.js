@@ -9,58 +9,24 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
   const [food, setFood] = useState("");
   const [calories, setCalories] = useState("");
   const [totalCalories, setTotalCalories] = useState(0);
-  
+  const [editedFood, setEditedFood] = useState("");
+  const [editedCalories, setEditedCalories] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
 
-  // useEffect(() => {
-  //   if (user && user.id) {
-  //     fetchUserNutritionData(user.id);
-  //   }
-  // }, [user, fetchUser]);
-useEffect(() => {
-  console.log(user.nutrition)
-  setNutritionData(user.nutrition)
-  // const fetchUserNutritionData = async () => {
-  //   try {
-  //     console.log("do you work")
-  //     const token = localStorage.getItem("authToken");
-  //     const response = await fetch(`http://localhost:4000/user/${id}/nutrition`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'authorization': `Bearer ${token}`
-  //       }
-  //     });
+  useEffect(() => {
+      setNutritionData(user.nutrition);
+      setTotalCalories(user.totalCalories);
+  }, [user]);
 
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
 
-  //     const data = await response.json();
-  //     console.log(data.data)
-  //     setNutritionData(data.nutrition);
-  //   } catch (error) {
-  //     console.error("Error fetching nutrition data:", error);
-  //   }
-  // }
-  // // console.log(user.id)
-  // if (localStorage.getItem("authToken")) {
-  //   fetchUserNutritionData();
-  // }
-}, [user]);
-
-  // handleAddFood function to add food to the nutritionData array
   const handleAddFood = () => {
     const newItem = { food, calories, totalCalories: 0};
-    const updateNutritionData = [...nutritionData, newItem];
-
-    localStorage.setItem("nutritionData", JSON.stringify(updateNutritionData));
-
-
     setNutritionData([...nutritionData, newItem]);
     setTotalCalories(totalCalories + Number(calories));
     setFood("");
     setCalories("");
   };
+
 
   const handleEdit = (index) => {
     setEditedFood(nutritionData[index].food);
@@ -82,21 +48,24 @@ useEffect(() => {
     }
   
     await fetchUser(id);
-
-    const localNutritionData = JSON.parse(localStorage.getItem("nutritionData"));    
+    
   
-    // Append new nutrition data to the user's profile
+    // Add new nutrition data to the user's profile
     const updatedUserProfile = {
       ...user,
-      nutrition: [...user.nutrition, ...localNutritionData],
+      nutrition: [...user.nutrition, ...nutritionData],
       totalCalories: user.totalCalories + totalCalories,
     };
   
     // Update user profile
-    updateUserProfile(id, updatedUserProfile);
+    updateUserProfile(user.id, updatedUserProfile);
+  };
 
-    console.log(nutritionData);
-
+  const handleUpdate = (index) => {
+    const updatedNutritionData = [...nutritionData];
+    updatedNutritionData[index] = { food: editedFood, calories: editedCalories };
+    setNutritionData(updatedNutritionData);
+    setEditIndex(null);
   };
 
   return (
@@ -125,13 +94,25 @@ useEffect(() => {
             <tr>
               <th>Food</th>
               <th>Calories</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             {nutritionData.map((item, index) => (
               <tr key={index}>
-                <td>{item.food}</td>
-                <td>{item.calories}</td>
+                <td>{editIndex === index ? <input type="text" value={editedFood} onChange={(e) => setEditedFood(e.target.value)} /> : item.food}</td>
+                <td>{editIndex === index ? <input type="number" value={editedCalories} onChange={(e) => setEditedCalories(e.target.value)} /> : item.calories}</td>
+                <td>
+                  {editIndex === index ? (
+                    <button onClick={() => handleUpdate(index)}>Save</button>
+                  ) : (
+                    <button onClick={() => handleEdit(index)}>Edit</button>
+                  )}
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(index)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>

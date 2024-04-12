@@ -54,21 +54,27 @@ const Exercise = ({ user }) => {
   };
 
   const handleSave = async () => {
+    if (!user) {
+      console.error("User is null");
+      return;
+    }
+
     try {
       // Save exercises to the user's database
       const response = await fetch(`http://localhost:4000/user/${user._id}/exercise`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'authorization': localStorage.getItem("authToken")
+          'authorization': `Bearer ${localStorage.getItem("authToken")}`
         },
-        body: JSON.stringify(exercises)
+        body: JSON.stringify({exercises: exercises})
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
+      
       console.log("Exercises saved successfully to the database!");
     } catch (error) {
       console.error("Error saving exercises to the database:", error);
