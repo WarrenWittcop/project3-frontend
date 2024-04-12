@@ -22,9 +22,7 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
       console.log('User ID is undefined');
     }
   }, [id]);
-  // useEffect(() => {
-  //   fetchUser(params.id);
-  // }, []);
+
 
   useEffect(() => {
 
@@ -68,7 +66,7 @@ const Profile = ({ user, fetchUser, handleSubmit }) => {
       fetchUser(id)
       // await handleSubmit(e);
 
-      setIsEditing(true);
+      setIsEditing(false);
     } catch (error) {
       console.error("Error occurred:", error);
     }
