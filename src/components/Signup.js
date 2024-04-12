@@ -8,6 +8,7 @@ const Signup = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         props.handleSignUp(form)
+        console.log(form)
     }
 
 

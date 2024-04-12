@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import "../css/Nutrition.css";
 
@@ -13,7 +13,10 @@ const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
   const [editedCalories, setEditedCalories] = useState("");
   const [editIndex, setEditIndex] = useState(null);
 
-
+  useEffect(() => {
+      setNutritionData(user.nutrition);
+      setTotalCalories(user.totalCalories);
+  }, [user]);
 
 
   const handleAddFood = () => {
