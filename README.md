@@ -13,7 +13,7 @@ Trello : https://trello.com/b/FA9UVrc1/p3-app
 
 GitHub link: https://github.com/WarrenWittcop/project3-frontend
 
-Technologies used: React, Mongoose, MongoDB, CSS 
+Technologies used: React, Mongoose, MongoDB, CSS, JWT/Bcrypt, Node
 
 Getting Started: 
 
