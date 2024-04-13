@@ -89,6 +89,20 @@ const Exercise = ({ user }) => {
   const handleDelete = (index) => {
     const updatedExercises = [...exercises];
     updatedExercises.splice(index, 1);
+
+    // const response = fetch(`http://localhost:4000/exercise/${user._id}`, {
+    //   method: 'DELETE',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'authorization': `Bearer ${localStorage.getItem("authToken")}`
+    //   },
+    //   body: JSON.stringify({name: editedName, duration: editedDuration})
+    // })
+
+    // if (!response.ok) {
+    //   throw new Error(`HTTP error! Status: ${response.status}`);
+    // }
+
     setExercises(updatedExercises);
   };
 
@@ -123,8 +137,8 @@ const Exercise = ({ user }) => {
           <tbody>
             {exercises.map((exercise, index) => (
               <tr key={index}>
-                <td>{exercises.name}</td>
-                <td>{exercises.duration}</td>
+                <td>{exercise?.name}</td>
+                <td>{exercise?.duration}</td>
                 <td>
                   <button onClick={() => handleEdit(exercise)}>Edit</button>
                 </td>
