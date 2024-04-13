@@ -26,7 +26,7 @@ function App() {
 
   const updateUserProfile = async (userId, updatedUserData) => {
     try {
-      const response = await fetch(`${URL}user/${userId}`, {
+      const response = await fetch(URL + `user/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function App() {
   
   const handleSignUp = async (user) => {
     console.log
-      const response = await fetch(URL + "/auth/signup", {
+      const response = await fetch(URL + "auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

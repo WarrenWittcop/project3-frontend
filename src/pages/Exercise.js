@@ -16,7 +16,7 @@ const Exercise = ({ user }) => {
 
   const fetchExercises = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/user/${user.id}/exercise`, {
+      const response = await fetch(`http://localhost:4000/user/${user._id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +29,8 @@ const Exercise = ({ user }) => {
       }
 
       const data = await response.json();
-      setExercises(data.exercises);
+      console.log(data)
+      setExercises(data.data.exercise);
     } catch (error) {
       console.error("Error fetching exercises:", error);
     }
@@ -48,31 +49,41 @@ const Exercise = ({ user }) => {
         duration: editedDuration,
       };
       setExercises([...exercises, newExercise]);
-      setEditedName("");
-      setEditedDuration("");
+      // setEditedName("");
+      // setEditedDuration("");
     }
   };
 
   const handleSave = async () => {
+
     try {
       // Save exercises to the user's database
-      const response = await fetch(`http://localhost:4000/user/${user.id}/exercise`, {
+      const response = await fetch(`http://localhost:4000/exercise/${user._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'authorization': localStorage.getItem("authToken")
+          'authorization': `Bearer ${localStorage.getItem("authToken")}`
         },
-        body: JSON.stringify(exercises)
+        body: JSON.stringify({name: editedName, duration: editedDuration})
       });
+      console.log(exercises)
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
+      setEditedName("");
+      setEditedDuration("");
+      
       console.log("Exercises saved successfully to the database!");
     } catch (error) {
       console.error("Error saving exercises to the database:", error);
     }
+
+    if (!user) {
+      console.error("User is null");
+      return;
+    }
+    console.log(user)
   };
 
   const handleDelete = (index) => {
@@ -112,8 +123,8 @@ const Exercise = ({ user }) => {
           <tbody>
             {exercises.map((exercise, index) => (
               <tr key={index}>
-                <td>{exercise.name}</td>
-                <td>{exercise.duration}</td>
+                <td>{exercises.name}</td>
+                <td>{exercises.duration}</td>
                 <td>
                   <button onClick={() => handleEdit(exercise)}>Edit</button>
                 </td>
