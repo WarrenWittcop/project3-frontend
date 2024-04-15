@@ -50,7 +50,7 @@ const Exercise = ({ user }) => {
     }
 
     try {
-        const response = await fetch(URL + `/user/${user._id}/exercise/${editingExerciseId}`, {
+        const response = await fetch(`${URL}/user/${user._id}/exercise/${editingExerciseId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
