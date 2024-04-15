@@ -2,6 +2,8 @@
 import { useState } from "react";
 import "../css/Login.css";
 
+const URL = process.env.REACT_APP_URL
+
 const Login = (props) => {
   const [form, setForm] = useState({
     username: "",

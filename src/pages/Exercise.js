@@ -4,6 +4,7 @@ import "../css/Exercise.css";
 
 const Exercise = ({ user }) => {
   // const { id } = useParams();
+  const URL = process.env.REACT_APP_URL
   const [exercises, setExercises] = useState([]);
   const [editedName, setEditedName] = useState("");
   const [editedDuration, setEditedDuration] = useState("");
@@ -17,7 +18,7 @@ const Exercise = ({ user }) => {
 
   const fetchExercises = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/user/${user._id}`, {
+      const response = await fetch(`${URL}/user/${user._id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ const Exercise = ({ user }) => {
     }
 
     try {
-        const response = await fetch(`http://localhost:4000/user/${user._id}/exercise/${editingExerciseId}`, {
+        const response = await fetch(`${URL}/user/${user._id}/exercise/${editingExerciseId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -94,7 +95,7 @@ const Exercise = ({ user }) => {
     
     try {
       // Save exercises to the user's database
-      const response = await fetch(`http://localhost:4000/exercise/${user._id}`, {
+      const response = await fetch(`${URL}/exercise/${user._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,7 +129,7 @@ const Exercise = ({ user }) => {
     // const updatedExercises = [...exercises];
     // updatedExercises.splice(index, 1);
     try {
-    const response = await fetch(`http://localhost:4000/user/${userId}/${exerciseId}`, {
+    const response = await fetch(`${URL}/user/${userId}/${exerciseId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -182,7 +183,7 @@ const Exercise = ({ user }) => {
             </tr>
           </thead>
           <tbody>
-            {exercises.map((exercise, index) => (
+            {exercises[0]!==null ? exercises.map((exercise, index) => (
               <tr key={index}>
                 <td>{exercise.name}</td>
                 <td>{exercise.duration}</td>
@@ -193,7 +194,7 @@ const Exercise = ({ user }) => {
                   <button onClick={() => handleDelete(index)}>Delete</button>
                 </td>
               </tr>
-            ))}
+            )):`no exercises`}
           </tbody>
         </table>
         <button onClick={handleSave} className="save-button">Save</button>

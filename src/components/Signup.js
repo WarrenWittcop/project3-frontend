@@ -2,6 +2,8 @@
 import { useState } from "react"
 import "../css/Signup.css"
 
+const URL = process.env.REACT_APP_URL
+
 const Signup = (props) => {
     const [form, setForm] = useState(null)
 

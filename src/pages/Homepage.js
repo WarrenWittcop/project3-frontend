@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import "../css/Homepage.css"
 
 const Homepage = () => {
-
+    const URL = process.env.REACT_APP_URL
     return (
         <div>
             <h2>Welcome to</h2>

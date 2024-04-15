@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import "../css/Nav.css";
 
+const URL = process.env.REACT_APP_URL
+
 const Nav = (props) => {
     return (
       <nav id="main-nav" className="navbar">
