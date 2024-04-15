@@ -42,7 +42,7 @@ function App() {
   };
   
   const handleSignUp = async (user) => {
-    console.log
+   console.log(user)
       const response = await fetch(`${URL}/auth/signup`, {
         method: "POST",
         headers: {

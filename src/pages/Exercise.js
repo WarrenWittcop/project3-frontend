@@ -183,7 +183,7 @@ const Exercise = ({ user }) => {
             </tr>
           </thead>
           <tbody>
-            {exercises.map((exercise, index) => (
+            {exercises[0]!==null ? exercises.map((exercise, index) => (
               <tr key={index}>
                 <td>{exercise.name}</td>
                 <td>{exercise.duration}</td>
@@ -194,7 +194,7 @@ const Exercise = ({ user }) => {
                   <button onClick={() => handleDelete(index)}>Delete</button>
                 </td>
               </tr>
-            ))}
+            )):`no exercises`}
           </tbody>
         </table>
         <button onClick={handleSave} className="save-button">Save</button>
