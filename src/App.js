@@ -15,8 +15,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  const URL = "http://localhost:4000/";
-  // const URL = process.env.URL
+  // const URL = "http://localhost:4000/";
+  const URL = process.env.REACT_APP_URL
 
   
   useEffect(() => {
