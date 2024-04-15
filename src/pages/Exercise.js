@@ -4,6 +4,7 @@ import "../css/Exercise.css";
 
 const Exercise = ({ user }) => {
   // const { id } = useParams();
+  const URL = process.env.REACT_APP_URL
   const [exercises, setExercises] = useState([]);
   const [editedName, setEditedName] = useState("");
   const [editedDuration, setEditedDuration] = useState("");

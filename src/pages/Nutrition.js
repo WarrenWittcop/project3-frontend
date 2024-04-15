@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import "../css/Nutrition.css";
 
 const Nutrition = ({ user, updateUserProfile, fetchUser }) => {
+  const URL = process.env.REACT_APP_URL
   const { id } = useParams();
   const [nutritionData, setNutritionData] = useState([]);
   const [food, setFood] = useState("");

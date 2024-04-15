@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import "../css/Profile.css";
 
 // const URL = "http://localhost:4000";
-const URL = process.env.REACT_APP_URL
+
 
 const Profile = ({ user, fetchUser, handleSubmit }) => {
+  const URL = process.env.REACT_APP_URL
   const {id} = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const [imageLink, setImageLink] = useState('');
