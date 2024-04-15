@@ -17,7 +17,7 @@ const Exercise = ({ user }) => {
 
   const fetchExercises = async () => {
     try {
-      const response = await fetch(URL + `/user/${user._id}`, {
+      const response = await fetch(`${URL}/user/${user._id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ const Exercise = ({ user }) => {
     
     try {
       // Save exercises to the user's database
-      const response = await fetch(URL +`/exercise/${user._id}`, {
+      const response = await fetch(`${URL}/exercise/${user._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ const Exercise = ({ user }) => {
     // const updatedExercises = [...exercises];
     // updatedExercises.splice(index, 1);
     try {
-    const response = await fetch(URL + `/user/${userId}/${exerciseId}`, {
+    const response = await fetch(`${URL}/user/${userId}/${exerciseId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
