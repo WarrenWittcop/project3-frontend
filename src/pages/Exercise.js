@@ -7,6 +7,7 @@ const Exercise = ({ user }) => {
   const [exercises, setExercises] = useState([]);
   const [editedName, setEditedName] = useState("");
   const [editedDuration, setEditedDuration] = useState("");
+  const [editingExerciseId, setEditingExerciseId] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -39,7 +40,42 @@ const Exercise = ({ user }) => {
   const handleEdit = (exercise) => {
     setEditedName(exercise.name);
     setEditedDuration(exercise.duration);
+    setEditingExerciseId(exercise._id);
   };
+
+  const handleUpdate = async () => {
+    if (!editingExerciseId) {
+        console.error("No exercise ID to update");
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:4000/user/${user._id}/exercise/${editingExerciseId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${localStorage.getItem("authToken")}`
+            },
+            body: JSON.stringify({ name: editedName, duration: Number(editedDuration) })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const updatedExercise = await response.json();
+        const updatedExercises = exercises.map(exercise =>
+            exercise._id === editingExerciseId ? { ...exercise, name: editedName, duration: Number(editedDuration) } : exercise
+        );
+        setExercises(updatedExercises);
+        setEditedName("");
+        setEditedDuration("");
+        setEditingExerciseId(null);
+    } catch (error) {
+        console.error("Error updating exercise:", error);
+    }
+};
+
 
   const handleAddExercise = () => {
     if (editedName && editedDuration) {
@@ -55,7 +91,7 @@ const Exercise = ({ user }) => {
   };
 
   const handleSave = async () => {
-
+    
     try {
       // Save exercises to the user's database
       const response = await fetch(`http://localhost:4000/exercise/${user._id}`, {
@@ -86,24 +122,32 @@ const Exercise = ({ user }) => {
     console.log(user)
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = async (index) => {
+    const exerciseId = exercises[index]._id;
+    const userId = user._id;
+    // const updatedExercises = [...exercises];
+    // updatedExercises.splice(index, 1);
+    try {
+    const response = await fetch(`http://localhost:4000/user/${userId}/${exerciseId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': `Bearer ${localStorage.getItem("authToken")}`
+      },
+      body: JSON.stringify({name: editedName, duration: editedDuration})
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
     const updatedExercises = [...exercises];
     updatedExercises.splice(index, 1);
-
-    // const response = fetch(`http://localhost:4000/exercise/${user._id}`, {
-    //   method: 'DELETE',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'authorization': `Bearer ${localStorage.getItem("authToken")}`
-    //   },
-    //   body: JSON.stringify({name: editedName, duration: editedDuration})
-    // })
-
-    // if (!response.ok) {
-    //   throw new Error(`HTTP error! Status: ${response.status}`);
-    // }
-
     setExercises(updatedExercises);
+    console.log("Exercise removed successfully!");
+    } catch (error) {
+      console.error("Error removing exercise:", error);
+    }
   };
 
   return (
@@ -122,7 +166,10 @@ const Exercise = ({ user }) => {
           onChange={(e) => setEditedDuration(e.target.value)}
           placeholder="Duration"
         />
-        <button onClick={handleAddExercise}>Add Exercise</button>
+        {/* <button onClick={handleAddExercise}>Add Exercise</button> */}
+        <button onClick={editingExerciseId ? handleUpdate : handleAddExercise}>
+    {editingExerciseId ? "Update Exercise" : "Add Exercise"}
+</button>
       </div>
       <div className="exercise-table">
         <table>
@@ -137,8 +184,8 @@ const Exercise = ({ user }) => {
           <tbody>
             {exercises.map((exercise, index) => (
               <tr key={index}>
-                <td>{exercise?.name}</td>
-                <td>{exercise?.duration}</td>
+                <td>{exercise.name}</td>
+                <td>{exercise.duration}</td>
                 <td>
                   <button onClick={() => handleEdit(exercise)}>Edit</button>
                 </td>
